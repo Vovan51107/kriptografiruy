@@ -11,7 +11,7 @@ def s_new():
         messagebox.showinfo('Error 1', 'Ошибка! Поля ввода пустые!')  
     else:
         global texte
-        texte = kripto.kriptografiruy(str(txt.get()), int(txt2.get()))
+        texte = kripto.kriptografiruy(str(txt.get()), int(txt2.get()), selected.get())
         lbl4.configure(text= texte)
 
 
@@ -40,9 +40,13 @@ if __name__ == '__main__':
     lbl4 = Label(window, text='(вывод)', font=("Arial", 20))  
     lbl4.grid(column=1, row=6)
     texte = ''
-
-    btns = Button(window, text="Преобразовать", bg="green", fg="white", height=10, width=25, command=s_new) 
+    btns = Button(window, text="Преобразовать", bg="green", fg="white", height=10, width=25, command=s_new)
     btns.grid(column=3, row=2)
+    selected = IntVar()
+    rad1 = Radiobutton(window, text='English', value=1, variable=selected)
+    rad2 = Radiobutton(window, text='Русский', value=2, variable=selected)  
+    rad1.grid(column=2, row=0)
+    rad2.grid(column=3, row=0)
 
     btn2 = Button(window, text="Скопировать", bg="white", fg="orange", height=10, width=25, command=enters)
     btn2.grid(column=3, row=4)
