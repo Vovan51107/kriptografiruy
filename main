@@ -1,26 +1,43 @@
-def kriptografiruy(s, k):
-    zagl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+def kriptografiruy(s, k, lang):
+    zagl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'            #алфавиты
     stroch = 'abcdefghijklmnopqrstuvwxyz'
+    rus_zagl = 'БВГДЖЗЙКЛМНПРСТФХЦЧШЩ'
+    rus_stroch = 'бвгджзйклмнпрстфхцчшщ'
     s_new = ''
-    for i in s:
-        if i.lower() != i:
-            i = zagl.index(i) + k
-            if i >= 27:
-                l = (i - 27) // 27
-                if l == 0:
-                    l += 1
-                for k in range(l-1):
-                    zagl = zagl + zagl
-            s_new = s_new + zagl[i]
-        else:
-            i = stroch.index(i) + k
-            if i >= 27:    
-                l = (i - 27) // 27
-                if l == 0:
-                    l += 1
-                for k in range(l-1):
-                    stroch = stroch + stroch
-            s_new = s_new + stroch[i]
-    return s_new
 
-print(kriptografiruy(input(), int(input())))
+    for curr_letter in s:
+            if lang == True:
+                lang = 1
+                alphabet = stroch
+                alphabet_zagl = zagl
+            else:
+                lang = 2
+                alphabet = rus_stroch
+                alphabet_zagl = rus_zagl
+
+            if curr_letter.lower() != curr_letter:     #проверка на регистр
+                indexx = alphabet_zagl.index(curr_letter) + k   #получение индекса проверяемого символа
+                if indexx >= 26:                       #проверка на смещение, выходящее из алфавита
+                    outrange = (indexx - 26) // 26 + 1 #вычисление количества необходимых продлений алфавита
+                    if outrange <= 0:
+                        outrange = 1
+                    for rof in range(outrange):          #продление алфавита
+                        alphabet_zagl += alphabet_zagl
+                s_new += alphabet_zagl[indexx]           #добавление зашиврованного символа в вывод
+            else:
+                indexx = alphabet.index(curr_letter) + k #получение индекса проверяемого символа
+                if indexx >= 26:                       #проверка на смещение, выходящее из алфавита
+                    outrange = (indexx - 26) // 26 + 1 #вычисление количества необходимых продлений алфавита
+                    if outrange <= 0:
+                        outrange = 1
+                    for rof in range(outrange):
+                        alphabet += alphabet       #продление алфавита
+                s_new += alphabet[indexx]         #добавление зашиврованного символа в вывод
+
+        if lang == 1 or lang == 2:
+            if curr_letter in stroch or curr_letter in zagl:
+                preobrazovatel(False, curr_letter)
+            elif curr_letter in rus_stroch or curr_letter in rus_zagl:
+                preobrazovatel(True, curr_letter)
+            else:
+                return 'Error'
